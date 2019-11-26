@@ -1,0 +1,26 @@
+DELETE FROM 表名
+WHERE
+    字段名 IN (SELECT
+        *
+    FROM
+        (SELECT
+            字段名
+        FROM
+            表名
+        GROUP BY 字段名
+        HAVING COUNT(字段名) > 1) t1)
+    AND Id NOT IN (SELECT
+        *
+    FROM
+        (SELECT
+            MIN(Id)
+        FROM
+            表名
+        GROUP BY 字段名
+        HAVING COUNT(字段名) > 1) t2)
+
+
+DELETE FROM msite WHERE address in (SELECT * FROM (SELECT address from msite GROUP BY address HAVING count(address) > 1) t1) AND Id not in (SELECT * FROM (SELECT min(Id) FROM msite GROUP BY address HAVING count(address) > 1) t2)
+
+
+#说明： Delete duplicate field records in a table
